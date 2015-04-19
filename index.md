@@ -37,13 +37,13 @@ Important n-gram parameter is its position. Instead of just counting n-grams, on
 
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 22:11:20 2015 -->
+<!-- Sun Apr 19 23:49:33 2015 -->
 <table border=1>
-<caption align="bottom"> Sample sequences.  S - sequence, P - postion. </caption>
+<caption align="bottom"> Sample sequences.  S - sequence, P - position. </caption>
 <tr> <th>  </th> <th> P1 </th> <th> P2 </th> <th> P3 </th> <th> P4 </th> <th> P5 </th> <th> P6 </th>  </tr>
-  <tr> <td align="right"> S1 </td> <td> G </td> <td> A </td> <td> C </td> <td> T </td> <td> A </td> <td> A </td> </tr>
-  <tr> <td align="right"> S2 </td> <td> G </td> <td> C </td> <td> G </td> <td> C </td> <td> A </td> <td> A </td> </tr>
-  <tr> <td align="right"> S3 </td> <td> C </td> <td> C </td> <td> A </td> <td> C </td> <td> G </td> <td> G </td> </tr>
+  <tr> <td align="right"> S1 </td> <td> A </td> <td> T </td> <td> T </td> <td> C </td> <td> A </td> <td> T </td> </tr>
+  <tr> <td align="right"> S2 </td> <td> A </td> <td> T </td> <td> A </td> <td> G </td> <td> G </td> <td> T </td> </tr>
+  <tr> <td align="right"> S3 </td> <td> G </td> <td> C </td> <td> A </td> <td> C </td> <td> C </td> <td> T </td> </tr>
    </table>
   
 &nbsp;
@@ -64,13 +64,13 @@ Important n-gram parameter is its position. Instead of just counting n-grams, on
 
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 22:26:48 2015 -->
+<!-- Sun Apr 19 23:49:33 2015 -->
 <table border=1>
-<caption align="bottom"> Sample sequences.  S - sequence, P - postion. </caption>
+<caption align="bottom"> Sample sequences.  S - sequence, P - position. </caption>
 <tr> <th>  </th> <th> P1 </th> <th> P2 </th> <th> P3 </th> <th> P4 </th> <th> P5 </th> <th> P6 </th>  </tr>
-  <tr> <td align="right"> S1 </td> <td> G </td> <td> A </td> <td> C </td> <td> T </td> <td> A </td> <td> A </td> </tr>
-  <tr> <td align="right"> S2 </td> <td> G </td> <td> C </td> <td> G </td> <td> C </td> <td> A </td> <td> A </td> </tr>
-  <tr> <td align="right"> S3 </td> <td> C </td> <td> C </td> <td> A </td> <td> C </td> <td> G </td> <td> G </td> </tr>
+  <tr> <td align="right"> S1 </td> <td> A </td> <td> T </td> <td> T </td> <td> C </td> <td> A </td> <td> T </td> </tr>
+  <tr> <td align="right"> S2 </td> <td> A </td> <td> T </td> <td> A </td> <td> G </td> <td> G </td> <td> T </td> </tr>
+  <tr> <td align="right"> S3 </td> <td> G </td> <td> C </td> <td> A </td> <td> C </td> <td> C </td> <td> T </td> </tr>
    </table>
   
 &nbsp;
@@ -92,13 +92,13 @@ Important n-gram parameter is its position. Instead of just counting n-grams, on
 
 
 <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
-<!-- Sun Apr 19 22:26:48 2015 -->
+<!-- Sun Apr 19 23:49:33 2015 -->
 <table border=1>
-<caption align="bottom"> Sample sequences.  S - sequence, P - postion. </caption>
+<caption align="bottom"> Sample sequences.  S - sequence, P - position. </caption>
 <tr> <th>  </th> <th> P1 </th> <th> P2 </th> <th> P3 </th> <th> P4 </th> <th> P5 </th> <th> P6 </th>  </tr>
-  <tr> <td align="right"> S1 </td> <td> G </td> <td> A </td> <td> C </td> <td> T </td> <td> A </td> <td> A </td> </tr>
-  <tr> <td align="right"> S2 </td> <td> G </td> <td> C </td> <td> G </td> <td> C </td> <td> A </td> <td> A </td> </tr>
-  <tr> <td align="right"> S3 </td> <td> C </td> <td> C </td> <td> A </td> <td> C </td> <td> G </td> <td> G </td> </tr>
+  <tr> <td align="right"> S1 </td> <td> A </td> <td> T </td> <td> T </td> <td> C </td> <td> A </td> <td> T </td> </tr>
+  <tr> <td align="right"> S2 </td> <td> A </td> <td> T </td> <td> A </td> <td> G </td> <td> G </td> <td> T </td> </tr>
+  <tr> <td align="right"> S3 </td> <td> G </td> <td> C </td> <td> A </td> <td> C </td> <td> C </td> <td> T </td> </tr>
    </table>
   
 &nbsp;
@@ -137,10 +137,90 @@ $$n_{\text{max}} = p \times m^n$$
 
 ---
 
-### More stuff
+### Iterative n-gram building
 
-<!--html_preserve--><div id="htmlwidget-2655" style="width:504px;height:504px;" class="DiagrammeR"></div>
-<script type="application/json" data-for="htmlwidget-2655">{ "x": {
- "diagram": "graph LR; A-->B; A-->C; C-->E; B-->D; C-->D; D-->F; E-->F" 
-},"evals": [  ] }</script><!--/html_preserve-->
+Reason: there are too many possible n-grams. For bigger values of $n$ feature filtering takes too long.
+
+
+---
+
+### Exact n-gram building algorithm 
+
+1. Extract 1-grams from sequences and filter them.
+2. Split n-grams into 1-grams.
+3. Join together 1-grams with n-grams in all possible combinations.
+4. Filter ($n+1$)-grams.
+5. Repeat steps 2-4 till the given value of $n$ or there are no significant n-grams.
+
+---
+
+### Example: exact n-gram building algorithm 
+
+  
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+<!-- Mon Apr 20 00:12:14 2015 -->
+<table border=1>
+<caption align="bottom"> Filtered 2-grams. </caption>
+  <tr> <td align="right"> biogram notation </td> <td> 1_A.T_0 </td> <td> 2_T.T_0 </td> <td> 3_T.C_0 </td> </tr>
+  <tr> <td align="right"> human-readable </td> <td> AT </td> <td> TT </td> <td> TC </td> </tr>
+   </table>
+
+&nbsp;
+
+
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+<!-- Mon Apr 20 00:12:21 2015 -->
+<table border=1>
+<caption align="bottom"> Possible 3-grams. </caption>
+  <tr> <td align="right"> biogram notation </td> <td> 1_A.T.T_0.0 </td> <td> 1_A.T.C_1.0 </td> <td> 2_T.T.C_0.0 </td> <td> 1_A.T.T_0.0 </td> <td> 1_A.T.C_0.1 </td> <td> 2_T.T.C_0.0 </td> </tr>
+  <tr> <td align="right"> human-readable </td> <td> ATT </td> <td> A_TC </td> <td> TTC </td> <td> ATT </td> <td> AT_C </td> <td> TTC </td> </tr>
+   </table>
+
+---
+
+### n-gram building algorithm with Hamming distance
+
+1. Extract 1-grams from sequences and filter them.
+2. Split n-grams into 1-grams.
+3. Join together 1-grams with n-grams in all possible combinations.
+4. Create summary feature for each ($n+1$)-gram. A summary feature is a logical alternative of counts for all positioned n-gram which are in given Hamming distance from a ($n+1$)-gram.
+5. Filter summary features.
+6. Repeat steps 2-5 till the given value of $n$ or there are no significant n-grams.
+
+
+---
+
+### Example: exact n-gram building algorithm 
+
+  
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+<!-- Mon Apr 20 00:51:00 2015 -->
+<table border=1>
+<caption align="bottom"> Filtered 2-grams. </caption>
+  <tr> <td align="right"> biogram notation </td> <td> 1_A.T_0 </td> <td> 2_T.T_0 </td> <td> 3_T.C_0 </td> </tr>
+  <tr> <td align="right"> human-readable </td> <td> AT </td> <td> TT </td> <td> TC </td> </tr>
+   </table>
+
+&nbsp;
+
+
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+<!-- Mon Apr 20 00:51:00 2015 -->
+<table border=1>
+<caption align="bottom"> Possible 3-grams. </caption>
+  <tr> <td align="right"> biogram notation </td> <td> 1_A.T.T_0.0 </td> <td> 1_A.T.C_1.0 </td> <td> 2_T.T.C_0.0 </td> <td> 1_A.T.T_0.0 </td> <td> 1_A.T.C_0.1 </td> <td> 2_T.T.C_0.0 </td> </tr>
+  <tr> <td align="right"> human-readable </td> <td> ATT </td> <td> A_TC </td> <td> TTC </td> <td> ATT </td> <td> AT_C </td> <td> TTC </td> </tr>
+   </table>
+
+
+&nbsp;
+
+
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+<!-- Mon Apr 20 00:55:42 2015 -->
+<table border=1>
+<caption align="bottom"> n-grams in the Hamming distance 1 from n-gram 1_A.T.T_0.0 (ATT). </caption>
+  <tr> <td align="right"> biogram notation </td> <td> 2_T.T_0 </td> <td> 1_A.T_1 </td> <td> 1_A.T_0 </td> </tr>
+  <tr> <td align="right"> human-readable </td> <td> TT </td> <td> A_T </td> <td> AT </td> </tr>
+   </table>
 

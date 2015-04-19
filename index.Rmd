@@ -48,7 +48,7 @@ library(xtable)
 sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
 colnames(sample_seq) <- paste0("P", 1L:ncol(sample_seq))
 rownames(sample_seq) <- paste0("S", 1L:nrow(sample_seq))
-print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - postion.", digits = 0), type = "html")
+print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - position.", digits = 0), type = "html")
 ```
   
 &nbsp;
@@ -77,7 +77,7 @@ set.seed(1)
 #sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
 colnames(sample_seq) <- paste0("P", 1L:ncol(sample_seq))
 rownames(sample_seq) <- paste0("S", 1L:nrow(sample_seq))
-print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - postion.", digits = 0), type = "html")
+print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - position.", digits = 0), type = "html")
 ```
   
 &nbsp;
@@ -111,7 +111,7 @@ set.seed(1)
 #sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
 colnames(sample_seq) <- paste0("P", 1L:ncol(sample_seq))
 rownames(sample_seq) <- paste0("S", 1L:nrow(sample_seq))
-print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - postion.", digits = 0), type = "html")
+print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - position.", digits = 0), type = "html")
 ```
   
 &nbsp;
@@ -176,11 +176,98 @@ ggplot(dat, aes(x = n, y = n_max, fill = p, col = p)) +
 
 ---
 
-### More stuff
+### Iterative n-gram building
 
-```{r, echo=FALSE,cache=FALSE}
-library("DiagrammeR")
+Reason: there are too many possible n-grams. For bigger values of $n$ feature filtering takes too long.
 
-mermaid("graph LR; A-->B; A-->C; C-->E; B-->D; C-->D; D-->F; E-->F")
+
+---
+
+### Exact n-gram building algorithm 
+
+1. Extract 1-grams from sequences and filter them.
+2. Split n-grams into 1-grams.
+3. Join together 1-grams with n-grams in all possible combinations.
+4. Filter ($n+1$)-grams.
+5. Repeat steps 2-4 till the given value of $n$ or there are no significant n-grams.
+
+---
+
+### Example: exact n-gram building algorithm 
+
+  
+```{r, echo=FALSE,message=FALSE,results='asis'}
+library(biogram)
+library(xtable)
+ngrams <- as.vector(seq2ngrams(sample_seq[1, 1L:4], 2, c("A", "C", "G", "T")))
+ngrams <- sapply(1L:length(ngrams), function(i) paste0(i, "_", ngrams[i]))
+dat <- rbind(ngrams, decode_ngrams(ngrams))
+rownames(dat) <- c("biogram notation", "human-readable")
+print(xtable(dat, caption = "Filtered 2-grams."), type = "html", include.colnames = FALSE)
 ```
 
+&nbsp;
+
+
+```{r, echo=FALSE,message=FALSE,results='asis'}
+dat2 <- rbind(add_1grams(ngrams), decode_ngrams(add_1grams(ngrams)))
+rownames(dat2) <- c("biogram notation", "human-readable")
+print(xtable(dat2, caption = "Possible 3-grams."), type = "html", include.colnames = FALSE)
+```
+
+---
+
+### n-gram building algorithm with Hamming distance
+
+1. Extract 1-grams from sequences and filter them.
+2. Split n-grams into 1-grams.
+3. Join together 1-grams with n-grams in all possible combinations.
+4. Create summary feature for each ($n+1$)-gram. A summary feature is a logical alternative of counts for all positioned n-gram which are in given Hamming distance from a ($n+1$)-gram.
+5. Filter summary features.
+6. Repeat steps 2-5 till the given value of $n$ or there are no significant n-grams.
+
+
+---
+
+### Example: exact n-gram building algorithm 
+
+  
+```{r, echo=FALSE,message=FALSE,results='asis'}
+library(biogram)
+library(xtable)
+ngrams <- as.vector(seq2ngrams(sample_seq[1, 1L:4], 2, c("A", "C", "G", "T")))
+ngrams <- sapply(1L:length(ngrams), function(i) paste0(i, "_", ngrams[i]))
+dat <- rbind(ngrams, decode_ngrams(ngrams))
+rownames(dat) <- c("biogram notation", "human-readable")
+print(xtable(dat, caption = "Filtered 2-grams."), type = "html", include.colnames = FALSE)
+```
+
+&nbsp;
+
+
+```{r, echo=FALSE,message=FALSE,results='asis'}
+dat2 <- rbind(add_1grams(ngrams), decode_ngrams(add_1grams(ngrams)))
+rownames(dat2) <- c("biogram notation", "human-readable")
+print(xtable(dat2, caption = "Possible 3-grams."), type = "html", include.colnames = FALSE)
+```
+
+
+&nbsp;
+
+
+```{r, echo=FALSE,message=FALSE,results='asis'}
+dat2 <- rbind(gap_ngrams(add_1grams(ngrams)[1]), 
+              decode_ngrams(gap_ngrams(add_1grams(ngrams)[1])))
+rownames(dat2) <- c("biogram notation", "human-readable")
+print(xtable(dat2, caption = paste0("n-grams in the Hamming distance 1 from n-gram ",
+                                    add_1grams(ngrams)[1], " (", decode_ngrams(add_1grams(ngrams)[1]), ").")), 
+      type = "html", include.colnames = FALSE)
+```
+
+
+### Results
+
+Mostly disappointing.
+
+
+---
