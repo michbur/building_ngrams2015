@@ -1,0 +1,66 @@
+---
+title       : Stepwise n-gram building
+author      : Michal Burdukiewicz, Piotr Sobczyk
+framework   : io2012 
+highlighter : highlight.js
+hitheme     : zenburn 
+widgets     : mathjax       # {mathjax, quiz, bootstrap}
+mode        : selfcontained
+knit        : slidify::knit2slides
+---
+
+
+### Quick example with ggplot2
+
+
+```{r, echo=FALSE}
+# the echo=5 tells knitr that I want all lines to run but only show #5
+library(ggplot2)
+data(diamonds)
+diamonds<-diamonds[sample(1:nrow(diamonds),2000),]
+ggplot(diamonds, aes(carat, price))+geom_point(color="firebrick")
+```
+
+
+--- 
+
+### Curse of dimensionality
+
+$$n_{\text{max}} = p \times m^n$$
+
+$n_{\text{max}}$: total number of n-grams.
+
+$p$: number of possible positions.
+
+$m$: number of letters in the alphabet.
+
+--- 
+
+### Curse of dimensionality
+
+$$n_{\text{max}} = p \times m^n$$
+
+```{r, echo=FALSE, fig.width=13.5}
+library(ggplot2)
+library(reshape2)
+n <- 1:6
+n_max <- 4^n
+
+dat <- melt(sapply(2:5*5, function(i) i * n_max))
+dat[["Var2"]] <- factor(dat[["Var2"]])
+levels(dat[["Var2"]]) <- 2:5*5
+colnames(dat) <- c("n", "p", "n_max")
+ggplot(dat, aes(x = n, y = n_max, fill = p, col = p)) + 
+  geom_line(linetype="dotted", size=1.5) + 
+  geom_point(size=7, shape=21) +
+  scale_x_continuous(breaks = 0L:6) +
+  scale_y_continuous(expression(n["max"]))
+```
+
+
+---
+
+### More stuff
+
+
+AAAAAA
