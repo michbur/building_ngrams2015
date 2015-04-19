@@ -43,16 +43,142 @@
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    <h3>Quick example with ggplot2</h3>
+    <h3>Outline</h3>
   </hgroup>
   <article data-timings="">
-    <p><img src="assets/fig/unnamed-chunk-1-1.png" alt="plot of chunk unnamed-chunk-1"> </p>
+    <ol>
+<li>n-gram definition.</li>
+<li>Iterative n-gram building.</li>
+<li>Results.</li>
+<li>Conclusions and perspectives.</li>
+</ol>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
 <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h3>n-grams (k-mers)</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>n-grams (k-tuples) are vectors of n characters derived from input sequence(s). They may form continuous sub-sequences or be discontinuous.  </p>
+
+<p>Important n-gram parameter is its position. Instead of just counting n-grams, one may want to count how many n-grams occur at a given position in multiple (e.g. related) sequences.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h3>1-grams</h3>
+  </hgroup>
+  <article data-timings="">
+    <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+
+<!-- Sun Apr 19 22:11:20 2015 -->
+
+<table border=1>
+<caption align="bottom"> Sample sequences.  S - sequence, P - postion. </caption>
+<tr> <th>  </th> <th> P1 </th> <th> P2 </th> <th> P3 </th> <th> P4 </th> <th> P5 </th> <th> P6 </th>  </tr>
+  <tr> <td align="right"> S1 </td> <td> G </td> <td> A </td> <td> C </td> <td> T </td> <td> A </td> <td> A </td> </tr>
+  <tr> <td align="right"> S2 </td> <td> G </td> <td> C </td> <td> G </td> <td> C </td> <td> A </td> <td> A </td> </tr>
+  <tr> <td align="right"> S3 </td> <td> C </td> <td> C </td> <td> A </td> <td> C </td> <td> G </td> <td> G </td> </tr>
+   </table>
+  
+
+<p>&nbsp;</p>
+
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+
+<!-- Sun Apr 19 22:06:41 2015 -->
+
+<table border=1>
+<caption align="bottom"> 1-gram counts. </caption>
+<tr> <th>  </th> <th> A </th> <th> C </th> <th> G </th> <th> T </th>  </tr>
+  <tr> <td align="right"> S1 </td> <td align="right"> 1 </td> <td align="right"> 2 </td> <td align="right"> 1 </td> <td align="right"> 2 </td> </tr>
+  <tr> <td align="right"> S2 </td> <td align="right"> 2 </td> <td align="right"> 2 </td> <td align="right"> 2 </td> <td align="right"> 0 </td> </tr>
+  <tr> <td align="right"> S3 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 2 </td> <td align="right"> 3 </td> </tr>
+   </table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h3>2-grams</h3>
+  </hgroup>
+  <article data-timings="">
+    <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+
+<!-- Sun Apr 19 22:26:48 2015 -->
+
+<table border=1>
+<caption align="bottom"> Sample sequences.  S - sequence, P - postion. </caption>
+<tr> <th>  </th> <th> P1 </th> <th> P2 </th> <th> P3 </th> <th> P4 </th> <th> P5 </th> <th> P6 </th>  </tr>
+  <tr> <td align="right"> S1 </td> <td> G </td> <td> A </td> <td> C </td> <td> T </td> <td> A </td> <td> A </td> </tr>
+  <tr> <td align="right"> S2 </td> <td> G </td> <td> C </td> <td> G </td> <td> C </td> <td> A </td> <td> A </td> </tr>
+  <tr> <td align="right"> S3 </td> <td> C </td> <td> C </td> <td> A </td> <td> C </td> <td> G </td> <td> G </td> </tr>
+   </table>
+  
+
+<p>&nbsp;</p>
+
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+
+<!-- Sun Apr 19 22:10:08 2015 -->
+
+<table border=1>
+<caption align="bottom"> 2-gram counts. </caption>
+<tr> <th>  </th> <th> AA </th> <th> CA </th> <th> GA </th> <th> TA </th> <th> AC </th> <th> CC </th> <th> GC </th> <th> TC </th> <th> AG </th> <th> CG </th> <th> GG </th> <th> TG </th> <th> AT </th> <th> CT </th> <th> GT </th> <th> TT </th>  </tr>
+  <tr> <td align="right"> S1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> </tr>
+  <tr> <td align="right"> S2 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> </tr>
+  <tr> <td align="right"> S3 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 1 </td> </tr>
+   </table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h3>2-grams with position information</h3>
+  </hgroup>
+  <article data-timings="">
+    <!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+
+<!-- Sun Apr 19 22:26:48 2015 -->
+
+<table border=1>
+<caption align="bottom"> Sample sequences.  S - sequence, P - postion. </caption>
+<tr> <th>  </th> <th> P1 </th> <th> P2 </th> <th> P3 </th> <th> P4 </th> <th> P5 </th> <th> P6 </th>  </tr>
+  <tr> <td align="right"> S1 </td> <td> G </td> <td> A </td> <td> C </td> <td> T </td> <td> A </td> <td> A </td> </tr>
+  <tr> <td align="right"> S2 </td> <td> G </td> <td> C </td> <td> G </td> <td> C </td> <td> A </td> <td> A </td> </tr>
+  <tr> <td align="right"> S3 </td> <td> C </td> <td> C </td> <td> A </td> <td> C </td> <td> G </td> <td> G </td> </tr>
+   </table>
+  
+
+<p>&nbsp;</p>
+
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+
+<!-- Sun Apr 19 22:27:57 2015 -->
+
+<table border=1>
+<caption align="bottom"> 2-gram counts. </caption>
+<tr> <th>  </th> <th> X1_A.A_0 </th> <th> X2_A.A_0 </th> <th> X3_A.A_0 </th> <th> X4_A.A_0 </th> <th> X5_A.A_0 </th> <th> X1_C.A_0 </th> <th> X2_C.A_0 </th> <th> X3_C.A_0 </th>  </tr>
+  <tr> <td align="right"> S1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> </tr>
+  <tr> <td align="right"> S2 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> </tr>
+  <tr> <td align="right"> S3 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 0 </td> <td align="right"> 1 </td> <td align="right"> 0 </td> </tr>
+   </table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
   <hgroup>
     <h3>Curse of dimensionality</h3>
   </hgroup>
@@ -69,25 +195,28 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-3" style="background:;">
+<slide class="" id="slide-7" style="background:;">
   <hgroup>
     <h3>Curse of dimensionality</h3>
   </hgroup>
   <article data-timings="">
     <p>\[n_{\text{max}} = p \times m^n\]</p>
 
-<p><img src="assets/fig/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"> </p>
+<p><img src="assets/fig/unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-4" style="background:;">
+<slide class="" id="slide-8" style="background:;">
   <hgroup>
     <h3>More stuff</h3>
   </hgroup>
   <article data-timings="">
-    <p>AAAAAA</p>
+    <p>&lt;!--html_preserve--&gt;<div id="htmlwidget-2655" style="width:504px;height:504px;" class="DiagrammeR"></div>
+<script type="application/json" data-for="htmlwidget-2655">{ &quot;x&quot;: {
+ &quot;diagram&quot;: &quot;graph LR; A--&gt;B; A--&gt;C; C--&gt;E; B--&gt;D; C--&gt;D; D--&gt;F; E--&gt;F&quot; 
+},&quot;evals&quot;: [  ] }</script>&lt;!--/html_preserve--&gt;</p>
 
   </article>
   <!-- Presenter Notes -->
@@ -99,26 +228,50 @@
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title='Quick example with ggplot2'>
+        data-slide=1 title='Outline'>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Curse of dimensionality'>
+        data-slide=2 title='n-grams (k-mers)'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='Curse of dimensionality'>
+        data-slide=3 title='1-grams'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='More stuff'>
+        data-slide=4 title='2-grams'>
          4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='2-grams with position information'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Curse of dimensionality'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Curse of dimensionality'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='More stuff'>
+         8
       </a>
     </li>
   </ul>

@@ -9,16 +9,120 @@ mode        : selfcontained
 knit        : slidify::knit2slides
 ---
 
+### Outline
 
-### Quick example with ggplot2
+1. n-gram definition.
+2. Iterative n-gram building.
+3. Results.
+4. Conclusions and perspectives.
 
 
-```{r, echo=FALSE}
+--- 
+
+
+
+### n-grams (k-mers)
+
+n-grams (k-tuples) are vectors of n characters derived from input sequence(s). They may form continuous sub-sequences or be discontinuous.  
+
+
+Important n-gram parameter is its position. Instead of just counting n-grams, one may want to count how many n-grams occur at a given position in multiple (e.g. related) sequences.
+
+
+--- 
+
+
+
+### 1-grams
+
+
+```{r, echo=FALSE,results='asis'}
 # the echo=5 tells knitr that I want all lines to run but only show #5
+library(reshape2)
 library(ggplot2)
-data(diamonds)
-diamonds<-diamonds[sample(1:nrow(diamonds),2000),]
-ggplot(diamonds, aes(carat, price))+geom_point(color="firebrick")
+library(grid)
+library(biogram)
+library(xtable)
+
+#set.seed(1)
+sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
+colnames(sample_seq) <- paste0("P", 1L:ncol(sample_seq))
+rownames(sample_seq) <- paste0("S", 1L:nrow(sample_seq))
+print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - postion.", digits = 0), type = "html")
+```
+  
+&nbsp;
+  
+```{r, echo=FALSE,results='asis'}
+unis <- count_ngrams(sample_seq, 1, c("A", "C", "G", "T"))
+unis <- data.frame(as.matrix(unis))
+colnames(unis) <- c("A", "C", "G", "T")
+rownames(unis) <- paste0("S", 1L:nrow(sample_seq))
+print(xtable(unis, caption = "1-gram counts.", digits = 0), include.rownames = TRUE, type = "html")
+```
+
+--- 
+
+### 2-grams
+
+
+```{r, echo=FALSE,results='asis'}
+# the echo=5 tells knitr that I want all lines to run but only show #5
+library(reshape2)
+library(ggplot2)
+library(biogram)
+library(xtable)
+
+set.seed(1)
+#sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
+colnames(sample_seq) <- paste0("P", 1L:ncol(sample_seq))
+rownames(sample_seq) <- paste0("S", 1L:nrow(sample_seq))
+print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - postion.", digits = 0), type = "html")
+```
+  
+&nbsp;
+  
+```{r, echo=FALSE,results='asis'}
+unis <- count_ngrams(sample_seq, 2, c("A", "C", "G", "T"))
+unis <- data.frame(as.matrix(unis))
+
+colnames(unis) <- sapply(colnames(unis), function(i) 
+                         paste0(substr(i, 0, 1), substr(i, 3, 3)))
+
+#colnames(unis) <- c("A", "C", "G", "T")
+rownames(unis) <- paste0("S", 1L:nrow(sample_seq))
+print(xtable(unis, caption = "2-gram counts.", digits = 0), include.rownames = TRUE, type = "html")
+```
+
+--- 
+
+
+### 2-grams with position information
+
+
+```{r, echo=FALSE,results='asis'}
+# the echo=5 tells knitr that I want all lines to run but only show #5
+library(reshape2)
+library(ggplot2)
+library(biogram)
+library(xtable)
+
+set.seed(1)
+#sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
+colnames(sample_seq) <- paste0("P", 1L:ncol(sample_seq))
+rownames(sample_seq) <- paste0("S", 1L:nrow(sample_seq))
+print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - postion.", digits = 0), type = "html")
+```
+  
+&nbsp;
+  
+```{r, echo=FALSE,results='asis'}
+unis <- count_ngrams(sample_seq, 2, c("A", "C", "G", "T"), pos = TRUE)
+unis <- data.frame(as.matrix(unis))
+
+#colnames(unis) <- c("A", "C", "G", "T")
+rownames(unis) <- paste0("S", 1L:nrow(sample_seq))
+print(xtable(unis[, 1L:8], caption = "2-gram counts.", digits = 0), include.rownames = TRUE, type = "html")
 ```
 
 
@@ -41,20 +145,32 @@ $m$: number of letters in the alphabet.
 $$n_{\text{max}} = p \times m^n$$
 
 ```{r, echo=FALSE, fig.width=13.5}
-library(ggplot2)
-library(reshape2)
+library(grid)
 n <- 1:6
 n_max <- 4^n
 
-dat <- melt(sapply(2:5*5, function(i) i * n_max))
+dat <- melt(sapply(c(1, 2:5*5), function(i) i * n_max))
 dat[["Var2"]] <- factor(dat[["Var2"]])
-levels(dat[["Var2"]]) <- 2:5*5
+levels(dat[["Var2"]]) <- c(1, 2:5*5)
 colnames(dat) <- c("n", "p", "n_max")
 ggplot(dat, aes(x = n, y = n_max, fill = p, col = p)) + 
   geom_line(linetype="dotted", size=1.5) + 
   geom_point(size=7, shape=21) +
   scale_x_continuous(breaks = 0L:6) +
-  scale_y_continuous(expression(n["max"]))
+  scale_y_continuous(expression(n["max"])) + 
+  theme(plot.background=element_rect(fill = "transparent",
+                                                   colour = "transparent"),
+                      plot.margin = unit(c(1,1,1,1), "cm"),
+                      axis.text.x = element_text(size=17), 
+                      axis.text.y = element_text(size=17),
+                      axis.title.x = element_text(size=20, vjust = -1), 
+                      axis.title.y = element_text(size=20, vjust = 1),
+                      strip.text = element_text(size=20),
+                      legend.text = element_text(size=17), 
+                      legend.title = element_text(size=20),
+                      plot.title = element_text(size=28),
+                      panel.background = element_rect(fill = "transparent",colour = "black"),
+                      legend.background = element_rect(fill="NA"))
 ```
 
 
@@ -62,5 +178,9 @@ ggplot(dat, aes(x = n, y = n_max, fill = p, col = p)) +
 
 ### More stuff
 
+```{r, echo=FALSE,cache=FALSE}
+library("DiagrammeR")
 
-AAAAAA
+mermaid("graph LR; A-->B; A-->C; C-->E; B-->D; C-->D; D-->F; E-->F")
+```
+
