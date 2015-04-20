@@ -136,6 +136,33 @@ $$n_{\text{max}} = p \times m^n$$
 
 ![plot of chunk unnamed-chunk-7](assets/fig/unnamed-chunk-7-1.png) 
 
+--- 
+
+### Case study
+
+We used n-grams to predict cleavage site in signal peptides.
+
+Experiment conditions:  
+- 3897 cleavage sites (nonamers from -4 to +4 from cleavage site);  
+- 4794 non-cleavage sites (2nd-9th amino acids in proteins with signal peptide and 7th-15th amino acids in mature proteins);  
+- amino acids degenerated using scheme from signal.hsmm;
+- 1- and 4-grams (no distance between elements, position information).
+
+--- 
+
+### Case study
+
+<table border=1>
+<tr> <th> n </th> <th> model </th> <th> AUC - naive approach </th>  </tr>
+  <tr> <td align="right">   1 </td> <td> RF </td> <td align="right"> 0.85 </td> </tr>
+  <tr> <td align="right">   4 </td> <td> RF </td> <td align="right"> 0.67 </td> </tr>
+  <tr> <td align="right">   1 </td> <td> SVMlin </td> <td align="right"> 0.82 </td> </tr>
+  <tr> <td align="right">   4 </td> <td> SVMlin </td> <td align="right"> 0.68 </td> </tr>
+  <tr> <td align="right">   1 </td> <td> SVMrbf </td> <td align="right"> 0.84 </td> </tr>
+  <tr> <td align="right">   5 </td> <td> SVMrbf </td> <td align="right"> 0.62 </td> </tr>
+   </table>
+
+
 
 ---
 
@@ -151,7 +178,7 @@ Reason: there are too many possible n-grams. For bigger values of $n$ feature fi
 1. Extract 1-grams from sequences and filter them.
 2. Split n-grams into 1-grams.
 3. Join together 1-grams with n-grams in all possible combinations.
-4. Filter ($n+1$)-grams.
+4. Filter ($n+1$)-grams (p-value threshold: 0.05).
 5. Repeat steps 2-4 till the given value of $n$ or there are no significant n-grams.
 
 ---
@@ -186,7 +213,7 @@ Reason: there are too many possible n-grams. For bigger values of $n$ feature fi
 2. Split n-grams into 1-grams.
 3. Join together 1-grams with n-grams in all possible combinations.
 4. Create summary feature for each ($n+1$)-gram. A summary feature is a logical alternative of counts for all positioned n-gram which are in given Hamming distance from a ($n+1$)-gram.
-5. Filter summary features.
+5. Filter summary features (p-value threshold: 0.05).
 6. Repeat steps 2-5 till the given value of $n$ or there are no significant n-grams.
 
 
@@ -230,7 +257,22 @@ Reason: there are too many possible n-grams. For bigger values of $n$ feature fi
 
 ### Results
 
-Average AUC is around 0.51 for constructed 3- and 4-gram. Same as for non-constructed 3- and 4-grams (filtered all possible 3- and 4-grams without any distance between elements).
+<table border=1>
+<tr> <th> n </th> <th> model </th> <th> AUC - naive approach </th> <th> AUC - constructed </th>  </tr>
+  <tr> <td align="right">   1 </td> <td> RF </td> <td align="right"> 0.85 </td> <td align="right"> 0.85 </td> </tr>
+  <tr> <td align="right">   5 </td> <td> RF </td> <td align="right"> 0.67 </td> <td align="right"> 0.67 </td> </tr>
+  <tr> <td align="right">   1 </td> <td> SVMlin </td> <td align="right"> 0.82 </td> <td align="right"> 0.82 </td> </tr>
+  <tr> <td align="right">   5 </td> <td> SVMlin </td> <td align="right"> 0.68 </td> <td align="right"> 0.69 </td> </tr>
+  <tr> <td align="right">   1 </td> <td> SVMrbf </td> <td align="right"> 0.84 </td> <td align="right"> 0.84 </td> </tr>
+  <tr> <td align="right">   5 </td> <td> SVMrbf </td> <td align="right"> 0.62 </td> <td align="right"> 0.62 </td> </tr>
+   </table>
+
+---
+
+
+### Results
+
+Average AUC is for constructed 3- and 4-gram is nearly the same as for non-constructed 3- and 4-grams (filtered all possible 3- and 4-grams without any distance between elements).
 
 ---
 
