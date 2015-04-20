@@ -11,6 +11,8 @@ knit        : slidify::knit2slides
 
 ### Outline
 
+`r opts_chunk$set(cache=TRUE)`
+
 1. n-gram definition.
 2. Iterative n-gram building.
 3. Results.
@@ -44,7 +46,7 @@ library(grid)
 library(biogram)
 library(xtable)
 
-#set.seed(1)
+set.seed(1)
 sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
 colnames(sample_seq) <- paste0("P", 1L:ncol(sample_seq))
 rownames(sample_seq) <- paste0("S", 1L:nrow(sample_seq))
@@ -74,7 +76,7 @@ library(biogram)
 library(xtable)
 
 set.seed(1)
-#sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
+sample_seq <- matrix(sample(c("A", "C", "G", "T"), 18, replace = TRUE), nrow = 3)
 colnames(sample_seq) <- paste0("P", 1L:ncol(sample_seq))
 rownames(sample_seq) <- paste0("S", 1L:nrow(sample_seq))
 print(xtable(data.frame(sample_seq), caption = "Sample sequences.  S - sequence, P - position.", digits = 0), type = "html")
@@ -122,7 +124,7 @@ unis <- data.frame(as.matrix(unis))
 
 #colnames(unis) <- c("A", "C", "G", "T")
 rownames(unis) <- paste0("S", 1L:nrow(sample_seq))
-print(xtable(unis[, 1L:8], caption = "2-gram counts.", digits = 0), include.rownames = TRUE, type = "html")
+print(xtable(unis[, 1L:8], caption = "Part of 2-gram counts.", digits = 0), include.rownames = TRUE, type = "html")
 ```
 
 
