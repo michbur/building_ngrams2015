@@ -14,7 +14,7 @@ knit        : slidify::knit2slides
 1. n-gram definition.
 2. Iterative n-gram building.
 3. Results.
-4. Conclusions and perspectives.
+4. Drawbacks and limitations.
 
 
 --- 
@@ -223,4 +223,24 @@ Reason: there are too many possible n-grams. For bigger values of $n$ feature fi
   <tr> <td align="right"> biogram notation </td> <td> 2_T.T_0 </td> <td> 1_A.T_1 </td> <td> 1_A.T_0 </td> </tr>
   <tr> <td align="right"> human-readable </td> <td> TT </td> <td> A_T </td> <td> AT </td> </tr>
    </table>
+
+---
+
+### Results
+
+Average AUC is around 0.51 for constructed 3- and 4-gram. Same as for non-constructed 3- and 4-grams (filtered all possible 3- and 4-grams without any distance between elements).
+
+---
+
+### Drawbacks and limitations
+
+Drawbacks:
+* iteratively built n-grams do not provide more information about the differences between sequences;
+* constructing n-grams is slow.
+
+
+Limitations
+* bottleneck: counting constructed n-grams in sequences;
+* impossible to insert unigram between elements of n-gram.
+* heavy emphasis on position severily restricts the algorithm.
 

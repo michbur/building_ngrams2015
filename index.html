@@ -50,7 +50,7 @@
 <li>n-gram definition.</li>
 <li>Iterative n-gram building.</li>
 <li>Results.</li>
-<li>Conclusions and perspectives.</li>
+<li>Drawbacks and limitations.</li>
 </ol>
 
   </article>
@@ -328,6 +328,41 @@
   <!-- Presenter Notes -->
 </slide>
 
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h3>Results</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>Average AUC is around 0.51 for constructed 3- and 4-gram. Same as for non-constructed 3- and 4-grams (filtered all possible 3- and 4-grams without any distance between elements).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h3>Drawbacks and limitations</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>Drawbacks:</p>
+
+<ul>
+<li>iteratively built n-grams do not provide more information about the differences between sequences;</li>
+<li>constructing n-grams is slow.</li>
+</ul>
+
+<p>Limitations</p>
+
+<ul>
+<li>bottleneck: counting constructed n-grams in sequences;</li>
+<li>impossible to insert unigram between elements of n-gram.</li>
+<li>heavy emphasis on position severily restricts the algorithm.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
     <slide class="backdrop"></slide>
   </slides>
   <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
@@ -402,6 +437,18 @@
       <a href="#" target="_self" rel='tooltip' 
         data-slide=12 title='Example: exact n-gram building algorithm'>
          12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Results'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Drawbacks and limitations'>
+         14
       </a>
     </li>
   </ul>
